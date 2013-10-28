@@ -1,0 +1,73 @@
+\documentclass{article}
+
+\title{Substring search index}
+\author{Fabrice {\sc Bauzac}}
+
+\begin{document}
+
+\maketitle
+
+\section{About this document}
+
+This is a draft of a simple idea on a way for a text parser to create
+indices that permit to search for substrings efficiently.
+
+\section{Main idea}
+
+Start by creating 2-letter indices:
+
+\begin{center}
+\begin{tabular}{c|c}
+AA & 0 elements \\
+\hline
+AB & 1 element \\
+\hline
+AC & 3 elements \\
+\hline
+AD & 290 elements \\
+\hline
+... & ... \\
+\end{tabular}
+\end{center}
+
+When a 2-letter becomes too big, split in several indices:
+
+AD becomes:
+
+\begin{center}
+\begin{tabular}{c|c}
+AAD & ADA \\
+BAD & ADB \\
+CAD & ADC \\
+... & ... \\
+ZAD & ADZ \\
+\end{tabular}
+\end{center}
+
+So, an index is split into $2 \cdot{} 2^8$ indices: +511 indices.
+
+\section{Alternative 1: intermediate splits}
+
+AD becomes:
+
+\begin{center}
+\begin{tabular}{l}
+?AD where $A \le{} ? \le{} M$ \\
+?AD where $N \le{} ? \le{} T$ \\
+UAD \\
+?AD where $V \le{} ? \le{} Z$ \\
+\end{tabular}
+\end{center}
+
+\section{Alternative 2: regular expressions}
+
+AD becomes:
+
+\begin{center}
+\begin{tabular}{l}
+[BCZ]AD \\
+... \\
+\end{tabular}
+\end{center}
+
+\end{document}
